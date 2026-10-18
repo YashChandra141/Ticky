@@ -12,6 +12,12 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    // Ticky build output (compiled Electron shell) and scripts:
+    "dist-electron/**",
+    "scripts/**",
+    "electron-builder.config.js",
+    // Staged Next standalone server for packaging:
+    "desktop-build/**",
   ]),
 ]);
 

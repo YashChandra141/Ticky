@@ -1,0 +1,33 @@
+# One-click deploy of the Ticky public demo (https://render.com).
+#
+# No secrets in this file on purpose — anything sensitive (e.g.
+# OLLAMA_BASE_URL, if you want the demo to use your own Ollama server)
+# belongs in Render's dashboard, not in version control.
+#
+# Data lives in /tmp on the instance and resets whenever Render redeploys
+# or recycles the service. The AI copilot is disabled unless
+# OLLAMA_BASE_URL is set and reachable.
+#
+# Note: with output: "standalone", `next start` is unsupported — the build
+# command stages the static assets into the standalone server, and the
+# start command runs that server directly.
+
+services:
+  - type: web
+    name: ticky-demo
+    runtime: bun
+    plan: free
+    buildCommand: >-
+      bun install &&
+      bun run build &&
+      cp -r .next/static .next/standalone/.next/static &&
+      (cp -r public .next/standalone/public || true)
+    startCommand: node .next/standalone/server.js
+    healthCheckPath: /api/ai/models
+    envVars:
+      - key: TICKY_MODE
+        value: demo
+      - key: NODE_ENV
+        value: production
+      - key: HOSTNAME
+        value: 0.0.0.0

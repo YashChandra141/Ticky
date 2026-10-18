@@ -3,6 +3,7 @@
 # dependencies
 /node_modules
 /.pnp
+/.opencode
 .pnp.*
 .yarn/*
 !.yarn/patches
@@ -39,3 +40,11 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# app data (local SQLite store — keep your invoices out of git)
+/data
+
+# electron build output
+/dist-electron
+# staged next-server for packaging (rebuilt by scripts/build-desktop.mjs)
+/desktop-build
